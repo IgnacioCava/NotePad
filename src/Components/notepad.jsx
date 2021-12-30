@@ -1,7 +1,8 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux'
-import { create } from '../Actions'
+import { create, focused, unfocus } from '../Actions'
 import Notes from './notes'
+import Editor from './editor'
 import styled from "styled-components"
 import plus from '../plussign.png'
 
@@ -17,7 +18,10 @@ export default function Noteboard(){
     }
 
     const currentNotes=useSelector(state=>state.currentNotes)
+    const focusedNote=useSelector(state=>state.focusedNote)
     const dispatch = useDispatch()
+
+    console.log(focusedNote)
 
     return(
         <Notepad>
@@ -39,9 +43,41 @@ export default function Noteboard(){
                     
                 </form>
                 <Notes notes={currentNotes}/>
+                {focusedNote.length?
+                <FullNote>
+                    <div>
+                        {/* <p>{focusedNote[0].title} {focusedNote[0].id}</p> */}
+                        
+                        <Editor/>
+                        {/* <p>{focusedNote[0].content}</p> */}
+                        
+                    </div>
+                    
+                </FullNote>
+                :null}
         </Notepad>
     )
 }
+
+const FullNote = styled.div`
+    position:absolute;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: #49494986;
+    > div{
+        /* >div{
+            width:50%;
+            background-color: white;
+        } */
+        width: 90%;
+        height: 90%;
+        background-image: url('./paper.jpg');
+    }
+`
 
 const Notepad = styled.div`
     display: flex;

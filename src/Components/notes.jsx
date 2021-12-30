@@ -1,6 +1,6 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux'
-import { erase, edit } from '../Actions'
+import { erase, edit, focused, unfocus } from '../Actions'
 import styled from "styled-components"
 
 export default function Notes({notes}){
@@ -13,6 +13,9 @@ export default function Notes({notes}){
         if(update>0) Updater(0)
     }
 
+    const focusedNote=useSelector(state=>state.focusedNote)
+    //console.log(focusedNote)
+
     const dispatch = useDispatch()
     
     var key=0
@@ -20,23 +23,13 @@ export default function Notes({notes}){
         return(
             <AllNotes>
                 {notes.map(note=> 
-                    <Note key={key++}>
+                    <Note key={key++} onClick={()=>{
+                        if(focusedNote.length>0&&focusedNote[0].id===note.id) dispatch(unfocus())
+                        else dispatch(focused(note.id))
+                    }}>
                         <p>Título: {note.title}</p>
                         <hr/>
-                        <p>{note.content}</p>
-                        
-                            <form onSubmit={(event) => {
-                                event.preventDefault()
-                                dispatch(edit(newNoteContent, note.id))
-                                setNoteContent('')
-                                }}>
-                                <div style={{display:'flex', flexWrap:'wrap'}}>
-                                    <input type='submit' value='Editar'/>
-                                    <input type='text' style={{width:'100%', boxSizing:'border-box'}} placeholder='Nuevo contenido' size='15' onChange={(create)=>setNoteContent(create.target.value)}/>
-                                    <input type='button' value='Borrar' onClick={()=>dispatch(erase(note.id))}/>
-                                </div>
-                            </form>
-                            
+                        <p>{note.content}</p>   
                     </Note>
                 )}
             </AllNotes>

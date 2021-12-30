@@ -1,0 +1,17 @@
+.input{
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#back{
+    background-image: url('./greyback.png');
+}
+
+#edit{
+
+}
+
+#erase{
+
+}

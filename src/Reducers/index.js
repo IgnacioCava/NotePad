@@ -1,8 +1,8 @@
-import { CREATE, ERASE, EDIT } from '../Actions';
+import { CREATE, ERASE, EDIT, FOCUSED, UNFOCUS } from '../Actions';
 
 const initialState = {
-    //currentLists: [],
-    currentNotes: []
+    currentNotes: [],
+    focusedNote: []
 }
 
 var id=0
@@ -27,6 +27,12 @@ export default function reducer(state=initialState, action){
                     notes.content=action.editedContent
                 }
             })}
+
+        case FOCUSED:
+            return{...state, focusedNote: (state.currentNotes.filter((notes)=>notes.id==action.id))}
+
+        case UNFOCUS:
+            return{...state, focusedNote: []}
 
         default:
             return state;
