@@ -20,10 +20,11 @@ export function erase(id){
     }
 };
 
-export function edit(content, id){
+export function edit(content, title, id){
     return{
         type: EDIT,
         editedContent: content,
+        editedTitle: title,
         id
     }
 };

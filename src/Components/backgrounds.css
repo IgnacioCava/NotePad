@@ -4,39 +4,74 @@
     background-position: center;
 }
 
+#add{
+    position: relative;
+    bottom:0;
+    padding:5px;
+    font-size:x-large;
+    font-weight: bold;
+    color: white;
+    background-color: rgb(64, 167, 88);
+    border: 1px solid rgb(64, 167, 88);
+    border-radius: 4px 4px 0 0;
+    margin-right:5px;
+    transition: 0.2s;
+}
+
+#add:hover {
+    background-color: white;
+    color: rgb(64, 167, 88);  
+}
+
+#cloth{
+    width:95%;
+    height:95%;
+    background-color:#7d8fad;
+    position:absolute;
+    align-self:center; 
+    border-radius:10px;
+}
+
+.Note{
+    background-image:url('./paper.jpg');
+}
+
+.Notepad{
+    background-image:url('./board.jpg');
+    background-size: contain;
+}
+
 #back{
     background-image: url('./arrow.png');
-    transform: rotate(180deg);
-    transition: 0s;
-    padding-top:0;
     border-radius: 0 0 0 10px;
     border-right:0px;
+    border-top:0px;
+    border-left:0px;
 }
 
 #edit{
-    
+    border-left:0px;
+    border-top:0px;
+    border-right:0px;
+    transition: .1s;
+    background-image: url('./edit.png')
 }
 
 #erase{
     border-radius: 0 0 10px 0;
     border-left:0px;
+    border-top:0px;
     background-image: url('./thrash.png')
 }
 
 #erase:hover{
-    background-color: rgb(255, 111, 111)
+    background-color: rgb(255, 111, 111);
+    border-color: rgb(255, 111, 111);
 }
 
 @media (max-width:800px) {
-    #back{
-        transform: rotate(0deg);
-        border-right:1px;
-        border-top:2px;
-    }
-
-    #erase{
-        border-left:1px;
-        border-top:0px;
+    #edit{
+        
     }
 }
 
@@ -48,17 +83,12 @@
 }
 
 .inputArea{
-    font-family:"Lucida Grande",Verdana;
-    font-size: small;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color:rgb(24, 24, 24)
 }
 
 .inputAreaBg:focus{
     background-image:unset
-}
-
-.inputAreaBg:hover #edit{
-    border-color:rgb(107, 191, 219);
-    background-color:rgb(107, 191, 219)
 }
 
 .inputArea::-webkit-scrollbar{
@@ -68,5 +98,5 @@
 .inputArea::-webkit-scrollbar-thumb{
     border-radius: 10px;
     width: 12px;
-    background-color: #753a3a;
+    background-color: #5c5cdb;
 }

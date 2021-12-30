@@ -1,65 +1,59 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from 'react-redux'
-import { create, focused, unfocus } from '../Actions'
+import { create, focused} from '../Actions'
 import Notes from './notes'
 import Editor from './editor'
 import styled from "styled-components"
-import plus from '../plussign.png'
 
 export default function Noteboard(){
 
-    const [update, Updater] = useState(0)
-    const [newNoteTitle, setNoteTitle] = useState('')
-    const [newNoteContent, setNoteContent] = useState('')
-
-    function Update(){
-        Updater(update+1)
-        if(update>0) Updater(0)
-    }
-
     const currentNotes=useSelector(state=>state.currentNotes)
-    const focusedNote=useSelector(state=>state.focusedNote)
+    var focusedNote=useSelector(state=>state.focusedNote)
     const dispatch = useDispatch()
 
+    const [u, U] = useState(0)
+
+    function Update(){
+        U(u+1)
+    }
+
+    console.log(currentNotes.length)
     console.log(focusedNote)
 
+    // useEffect(()=>{
+        
+    // }, [focusedNote.content, focusedNote.title])
+
+    // useEffect(()=>{
+    //     focusedNote=currentNotes.length
+    // },[currentNotes.length])
+
     return(
-        <Notepad>
-                <form onSubmit={(event) => {
-                    var options = document.getElementById('options').value
-                    console.log(options)
-                    
-                    event.preventDefault()
-                    dispatch(create(newNoteTitle, newNoteContent))}}>
-
-                    <input type='submit' value='Agregar'/>
-                    <select id='options'>
-                        <option value="Nota">Nota</option>
-                        <option value="Lista">Lista</option>
-                    </select>
-                    <input type='text' placeholder="Título" onChange={(create)=>setNoteTitle(create.target.value)}/>
-                    <input type='text' placeholder="Contenido" onChange={(create)=>setNoteContent(create.target.value)}/>
-
-                    
-                </form>
+        <Notepad className='Notepad'>
+                <div id='cloth'/>
                 <Notes notes={currentNotes}/>
-                {focusedNote.length?
+                {focusedNote.length>0?
                 <FullNote>
                     <div>
-                        {/* <p>{focusedNote[0].title} {focusedNote[0].id}</p> */}
-                        
                         <Editor/>
-                        {/* <p>{focusedNote[0].content}</p> */}
-                        
                     </div>
-                    
                 </FullNote>
                 :null}
+                <form onSubmit={(event) => {
+                    event.preventDefault()
+                    dispatch(create(''))
+                    console.log(currentNotes.length)
+                    //Update()
+                    dispatch(focused(currentNotes.length))
+                    }}>
+                    <button id='add' type='submit'>Add note</button>
+                </form>
         </Notepad>
     )
 }
 
 const FullNote = styled.div`
+    z-index: 10;
     position:absolute;
     display:flex;
     flex-direction: column;
@@ -80,19 +74,22 @@ const FullNote = styled.div`
 `
 
 const Notepad = styled.div`
+    overflow: overlay;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: white;
+    background-color: #3b3b3b;
     border: 3px solid black;
     border-radius: 15px;
-    height: 70vh;
+    height: 90vh;
     width: 80vw;
     position: absolute;
     margin: auto;
-    margin-top: 10vh;
+    margin-top: 5vh;
     right:0;
     left:0;
+    justify-content: center
 `
 
 // var closeTab=function(e){

@@ -10,56 +10,51 @@ export default function Editor(){
     const focusedNote=useSelector(state=>state.focusedNote[0])
 
     const [newNoteContent, setNoteContent] = useState(focusedNote.content)
-    const [update, Updater] = useState(0)
+    const [newNoteTitle, setNoteTitle] = useState(focusedNote.title)
 
     const dispatch = useDispatch()
 
     console.log(newNoteContent)
-    console.log(focusedNote.content)
 
     useEffect(()=>{
         var editable=document.getElementById('edit')
         if(editable){
-            if(newNoteContent===focusedNote.content) {
+            if((newNoteContent===focusedNote.content)&&(newNoteTitle===focusedNote.title)) {
                 editable.disabled=true
-                //editable.style.backgroundColor='#ffffff99'
-                //editable.style.border='1px solid transparent'
+                editable.style.backgroundColor='unset'
             }
             else {editable.disabled=false
-                //editable.style.backgroundColor='unset'
-                //editable.style.border='1px solid #ccc'
+                editable.style.backgroundColor='rgb(107, 191, 219)'
             }
         }
     })
 
-    function Update(){
-        Updater(update+1)
-        if(update>0) Updater(0)
-    }
-
     useEffect(()=>{
-        document.getElementById(focusedNote.content)
-    }, [focusedNote.content])
+        
+    }, [focusedNote.content, focusedNote.title])
 
     return(
         <form style={{height:'100%'}} onSubmit={(event) => {
             event.preventDefault()
-            dispatch(edit(newNoteContent, focusedNote.id))
+            dispatch(edit(newNoteContent, newNoteTitle, focusedNote.id))
             dispatch(focused(focusedNote.id))
         }}>
 
             <StyledEditor className="inputAreaBg">
                 
-                <InputArea className='inputArea' name='InputArea' value={newNoteContent} 
+                <InputTitle className='inputArea' name='InputArea' value={newNoteTitle} 
+                onChange={(create)=>setNoteTitle(create.target.value)}/>
+
+                <InputContent className='inputArea' name='InputArea' value={newNoteContent} 
                 onChange={(create)=>setNoteContent(create.target.value)}/>
                 
                 <Move>
                     <input type='button' className='input' id='back' onClick={()=>{dispatch(unfocus())}}/>       
-                    <input type='submit' className='input' id='edit' value='Editar'/>
+                    <input type='submit' className='input' id='edit' value='          '/>
                     
                     <input type='button' className='input' id='erase' onClick={()=>{
-                        dispatch(erase(focusedNote.id))
                         dispatch(unfocus())
+                        dispatch(erase(focusedNote.id))
                         }}/>
                 </Move>
 
@@ -71,13 +66,14 @@ export default function Editor(){
 
 const Move = styled.div`
     display:flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-around;
     right:0;
     background-color: transparent;
     > input{
         height: 100%;
         width: 100%;
+        height: 40px;
         border: 1px solid #ccc;
         background-color:#ffffff;
         transition: .3s;
@@ -87,30 +83,46 @@ const Move = styled.div`
     }
     > #edit:disabled{
         background-color:#ffffff99;
-        transition: 1s;
-    }
-    > #edit:active{
-        background-color:lightgreen;
-    }
-    @media (max-width:800px) {
-        flex-direction: row;
-        > input{
-            height: 40px;
-            
-        }
+        transition: .5s;
     }
 `
+const InputTitle = styled.textarea`
+width:100%;
+height: 20%;
+overflow: auto;
+resize: none;
+padding: 20px;
+font-size:large;
+font-weight: bold;
+box-sizing: border-box;
+border: 2px solid #ccc;
+border-radius: 10px;
+outline: none;
+background-color: #ffffff99;
+transition: .3s;
 
-const InputArea = styled.textarea`
+&:hover{
+    background-color: #ffffff;
+}
+&:focus{
+    background-color: #ffffff;
+}
+@media (max-width:800px) {
+    border: 2px solid #ccc;
+    border-radius: 4px;
+}
+`
+
+const InputContent = styled.textarea`
     width:100%;
     height: 100%;
     overflow: auto;
     resize: none;
     padding: 20px;
+    font-size:medium;
     box-sizing: border-box;
     border: 2px solid #ccc;
-    border-right:0px;
-    border-radius: 10px 0 0 10px;
+    border-radius: 10px 10px 0 0;
     outline: none;
     background-color: #ffffff99;
     transition: .3s;
@@ -130,10 +142,7 @@ const InputArea = styled.textarea`
 
 const StyledEditor = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     width: 100%;
     height: 100%;
-    @media (max-width:800px) {
-        flex-direction: column;
-    }
 `
