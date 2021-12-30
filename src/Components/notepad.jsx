@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import { create, focused} from '../Actions'
 import Notes from './notes'
@@ -10,23 +10,6 @@ export default function Noteboard(){
     const currentNotes=useSelector(state=>state.currentNotes)
     var focusedNote=useSelector(state=>state.focusedNote)
     const dispatch = useDispatch()
-
-    const [u, U] = useState(0)
-
-    function Update(){
-        U(u+1)
-    }
-
-    console.log(currentNotes.length)
-    console.log(focusedNote)
-
-    // useEffect(()=>{
-        
-    // }, [focusedNote.content, focusedNote.title])
-
-    // useEffect(()=>{
-    //     focusedNote=currentNotes.length
-    // },[currentNotes.length])
 
     return(
         <Notepad className='Notepad'>
@@ -42,8 +25,6 @@ export default function Noteboard(){
                 <form onSubmit={(event) => {
                     event.preventDefault()
                     dispatch(create(''))
-                    console.log(currentNotes.length)
-                    //Update()
                     dispatch(focused(currentNotes.length))
                     }}>
                     <button id='add' type='submit'>Add note</button>
@@ -63,10 +44,6 @@ const FullNote = styled.div`
     height: 100%;
     background-color: #49494986;
     > div{
-        /* >div{
-            width:50%;
-            background-color: white;
-        } */
         width: 90%;
         height: 90%;
         background-image: url('./paper.jpg');
@@ -91,17 +68,3 @@ const Notepad = styled.div`
     left:0;
     justify-content: center
 `
-
-// var closeTab=function(e){
-    //     var add=document.getElementsByClassName('CreateTab')[0]
-    //     if(e.target!==add) {
-    //         document.querySelector('.ExpandList').style.opacity='0'
-    //         document.querySelector('.ExpandList').style.height='0%'
-    //     }
-    //     else {
-    //         document.querySelector('.ExpandList').style.opacity='1'
-    //         document.querySelector('.ExpandList').style.height='3rem'
-    //     }
-    // }
-   
-    //document.addEventListener('click',closeTab,false)

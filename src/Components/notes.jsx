@@ -4,7 +4,6 @@ import styled from "styled-components"
 
 export default function Notes({notes}){
 
-
     const focusedNote=useSelector(state=>state.focusedNote)
 
     const dispatch = useDispatch()

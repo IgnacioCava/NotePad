@@ -21,7 +21,7 @@ export default function reducer(state=initialState, action){
             return {...state, currentNotes: state.currentNotes.filter((notes)=>notes.id!==action.id)}
 
         case EDIT:
-            return {...state, ...state.currentNotes.map((notes)=>{
+            return {...state, ...state.currentNotes.forEach((notes)=>{
                 if(notes.id===action.id){
                     notes.content=action.editedContent
                     notes.title=action.editedTitle

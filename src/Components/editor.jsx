@@ -14,8 +14,6 @@ export default function Editor(){
 
     const dispatch = useDispatch()
 
-    console.log(newNoteContent)
-
     useEffect(()=>{
         var editable=document.getElementById('edit')
         if(editable){
@@ -60,7 +58,6 @@ export default function Editor(){
 
             </StyledEditor>
         </form>
-        
     )
 }
 
